@@ -1,0 +1,524 @@
+{
+    "description": "created by benjamin.burns@datadoghq.com",
+    "graphs": [
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "outliers(avg:system.load.1{role:trace-cassandra,$az,$app} by {host}, 'DBSCAN', 3)",
+                        "style": {
+                            "palette": "orange"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of system.load.1 over role:trace-cassandra by host"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:cassandra.db.recent_write_latency_micros{$az,$app} by {host}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of cassandra.db.recent_write_latency_micros over * by host"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:cassandra.db.recent_read_latency_micros{$az} by {host}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "area"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of cassandra.db.recent_read_latency_micros over * by host"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:haproxy.backend.response.time{$az,$app}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of haproxy.backend.response.time over *"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:gunicorn.request.duration.avg{$az,$vara}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of gunicorn.request.duration.avg over *"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "anomalies(avg:trace.pylons.request.duration.by.resource_service.50p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$a}, 'adaptive', 3)",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Latency on service:mcnulty-query in env:staging"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:trace.support.command.errors{$az,$app}.as_count()",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "bars"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of trace.support.command.errors over *"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "forecast(avg:jvm.heap_memory{name:cassandra-legacy,$az,$app} by {host}, 'seasonal', 1)",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of jvm.heap_memory over name:cassandra-legacy by host"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "events": [
+                    {
+                        "q": "bbd ",
+                        "tags_execution": "and"
+                    }
+                ],
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "outliers(sum:trace.pylons.request.duration.by_service{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$a} by {sublayer_service}.rollup(sum).fill(zero), 'DBSCAN', 3)",
+                        "style": {
+                            "palette": "orange"
+                        },
+                        "type": "area"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Total Time Spent by service on service:mcnulty-query in env:staging"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "anomalies(sum:trace.pylons.request.duration.by_service{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az}.rollup(sum).fill(zero), 'basic', 2)",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "area"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Total Time Spent by service on service:mcnulty-query in env:staging"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "metadata": {
+                            "avg:nginx.upstream.peers.responses.4xx{*}": {
+                                "alias": "400 errors"
+                            }
+                        },
+                        "q": "avg:nginx.upstream.peers.responses.4xx{$a}",
+                        "style": {
+                            "palette": "cool",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "bars"
+                    },
+                    {
+                        "metadata": {
+                            "avg:nginx.upstream.peers.responses.5xx{*}": {
+                                "alias": "500 errors"
+                            }
+                        },
+                        "q": "avg:nginx.upstream.peers.responses.5xx{$a}",
+                        "style": {
+                            "palette": "warm",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "bars"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Nginx 500 and 400 errors"
+        },
+        {
+            "definition": {
+                "events": [],
+                "requests": [
+                    {
+                        "alias": "p50",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.50p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p75",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.75p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p90",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.90p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p95",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.95p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p99",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.99p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "max",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.100p{env:staging,resource:337fa880a8bfe629,service:coffee-house,$az}.rollup(max)",
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Latency on service:coffee-house in env:staging"
+        },
+        {
+            "definition": {
+                "events": [],
+                "requests": [
+                    {
+                        "alias": "p50",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.50p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p75",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.75p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p90",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.90p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p95",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.95p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p99",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.99p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "max",
+                        "q": "avg:trace.servlet.request.duration.by.resource_service.100p{env:staging,resource:7f8d14a262c50baa,service:coffee-house,$az,$var}.rollup(max)",
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Latency on service:coffee-house, resource:GET /beanserver/order/{order} in env:staging"
+        },
+        {
+            "definition": {
+                "events": [],
+                "requests": [
+                    {
+                        "alias": "p50",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.50p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p75",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.75p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p90",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.90p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p95",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.95p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "p99",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.99p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}",
+                        "type": "line"
+                    },
+                    {
+                        "alias": "max",
+                        "q": "avg:trace.pylons.request.duration.by.resource_service.100p{env:staging,resource:8e64cd0d453755fe,service:mcnulty-query,$az,$var}.rollup(max)",
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Latency on service:mcnulty-query, resource:series.batch_query in env:staging"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "log_query": {
+                            "compute": {
+                                "aggregation": "avg",
+                                "facet": "@network.bytes_written"
+                            },
+                            "groupBy": [
+                                {
+                                    "facet": "service"
+                                }
+                            ],
+                            "index": "demo",
+                            "search": {
+                                "query": " $az $app"
+                            }
+                        },
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "bars"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of @network.bytes_written by service"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "apm_query": {
+                            "compute": {
+                                "aggregation": "avg",
+                                "facet": "@duration"
+                            },
+                            "groupBy": [],
+                            "index": "trace-search",
+                            "search": {
+                                "query": "@duration:>=200ms $az $app"
+                            }
+                        },
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of @duration over \"@duration:>=200ms\""
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "log_query": {
+                            "compute": {
+                                "aggregation": "avg",
+                                "facet": "@duration"
+                            },
+                            "groupBy": [
+                                {
+                                    "facet": "host",
+                                    "limit": null,
+                                    "sort": {
+                                        "aggregation": "avg",
+                                        "facet": "@duration",
+                                        "order": "asc"
+                                    }
+                                }
+                            ],
+                            "index": "demo",
+                            "search": {
+                                "query": " $az $app"
+                            }
+                        },
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of @duration by host"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "log_query": {
+                            "compute": {
+                                "aggregation": "avg",
+                                "facet": "@duration"
+                            },
+                            "groupBy": [
+                                {
+                                    "facet": "host",
+                                    "limit": null,
+                                    "sort": {
+                                        "aggregation": "avg",
+                                        "facet": "@duration",
+                                        "order": "asc"
+                                    }
+                                }
+                            ],
+                            "index": "demo",
+                            "search": {
+                                "query": " $az $app"
+                            }
+                        },
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Avg of @duration by host"
+        }
+    ],
+    "read_only": false,
+    "template_variables": [
+        {
+            "default": "*",
+            "name": "az",
+            "prefix": "availability-zone"
+        },
+        {
+            "default": "*",
+            "name": "app",
+            "prefix": "app"
+        }
+    ],
+    "title": "Scratch Timeboard - [bb]"
+}

@@ -1,0 +1,69 @@
+body {
+}
+
+.col-md-12 {
+    margin: 20px;
+}
+
+.form-group {
+    padding: 5px;
+}
+
+.bg-dark {
+  background-color: #563d7c!important;
+}
+
+.center-div {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+
+.page-header {
+    margin-top: 20px;
+}
+
+.m1 {
+    margin: 5px;
+}
+
+.select-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.desc {
+    font-weight: bold;
+    color: #563d7c;
+    font-size: 24px;
+}
+
+.p5 {
+    padding-right: 30px;
+}
+
+.inline-label {
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.btn {
+    margin-right: 3px;
+}
+
+#dashTitle, #dashDesc {
+    width: 500px;
+}
+
+#dash-contents {
+    padding-top: 20px;
+}
+
+#convert-option {
+    padding-left: 35px;
+}
+
+#destOrgForm, #destFileSubmit {
+    margin-bottom: 30px;
+}

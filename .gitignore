@@ -1,0 +1,7 @@
+__pycache__
+localvars.txt
+navbar_reference.html
+*.pyc
+temp_*
+.env
+/.gitback/*

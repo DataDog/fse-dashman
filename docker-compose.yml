@@ -1,0 +1,11 @@
+dashman:
+  build: ./
+  ports:
+   - "5000:5000"
+  volumes:
+   - .:/code
+  environment:
+    # Put variables in .env file
+    - DD_API_KEY=$DD_API_KEY
+    - DD_APP_KEY=$DD_APP_KEY
+    - DD_DEFAULT_DASH=$DD_DEFAULT_DASH

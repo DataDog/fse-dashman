@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="container-fluid">
+            <div class="col-md-10 center-div page-header">
+                <span class="desc">
+                    Clone / Combine / Customize
+                    <button id="add-source" style="display:none;" class="btn btn-warning btn-sm float-right">
+                        Add Source Dashboard
+                    </button>
+                </span>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid source-container">
+            <div class="col-md-10 center-div source-main" id="s0">
+                <div class="select-header">
+                    <span class="m1 p5 source-label"><strong>Source Dashboard - (s0)</strong></span>
+                    <span class="dropdown source-select">
+                        <button class="btn btn-sm btn-info dropdown-toggle float-right sourceDropdownButton" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Source
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a class="dropdown-item" href="#">File</a></li>
+                            <li><a class="dropdown-item" href="#">Organization</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="source-form-top">
+                    <form class="form-inline source-org-form" role="form" style="display:none;" onsubmit="return false">
+                        <div class="form-group">
+                            <label class="sr-only" for="sourceAPIKey">api key</label>
+                            <input value='{{ api_key }}' type="password" "form-control m1" name="sourceAPIKey" placeholder="API Key"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="sourceAPPKey">app key</label>
+                            <input value='{{ app_key }}' type="password" "form-control m1" name="sourceAPPKey" placeholder="APP Key"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="sourceDashId">dashboard id</label>
+                            <input value='{{ dash_id }}' type="number" "form-control m1" name="sourceDashId" placeholder="Dashboard Id"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm source-org-submit">
+                                Submit
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm source-remove">
+                                Remove
+                            </button>
+                        </div>
+                    </form>
+                    <form class="form-inline source-file-form" role="form" style="display:none;" onsubmit="return false">
+                        <div class="form-group">
+                            <label class="sr-only" for="source-file">
+                                Source File
+                            </label>
+                            <input type="file" class="form-control-file source-file" name="file" />
+                        </div>
+                        <span>
+                        <button type="submit" class="btn btn-primary btn-sm source-file-submit">
+                            Submit
+                        </button>
+                        </span>
+                        <span>
+                        <button type="button" class="btn btn-secondary btn-sm source-remove">
+                            Remove
+                        </button>
+                        </span>
+                    </form>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="col-md-10 center-div">
+                <div id="dashEditor">
+                    <span class="select-header"><strong>Customize Dashboard</strong></span>
+                    <div style="display:flex;">
+                        <form class="form-inline" id="titleEditForm" role="form" onsubmit="return false">
+                            <div class="form-group">
+                                <label for="dashTitleInput" class="inline-label">Title:</label>
+                                <input id="dashTitle" type="text" "form-control m1" name="dashTitleInput" placeholder="Title"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="display:flex;">
+                        <form class="form-inline" id="descEditForm" role="form" onsubmit="return false">
+                            <div class="form-group">
+                                <label for="dashDescInput" class="inline-label">Description:</label>
+                                <input id="dashDesc" type="text" "form-control m1" name="dashDescInput" placeholder="Description"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="dash-contents">
+                        <div>Template Variables:</div>
+                        <div id="template-vars" class="col-md-12"></div>
+                        <div>Graphs and Widgets:</div>
+                        <div id="charts" class="col-md-12"></div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="col-md-10 center-div">
+                <div class="select-header">
+                    <span class="m1 p5"><strong>Destination Dashboard Type</strong></span>
+                    <span>
+                        <button class="btn btn-info btn-sm dropdown-toggle float-right" type="button" id="typeDropdownButton" data-toggle="dropdown" disabled>
+                            Type
+                        </button>
+                        <ul class="dropdown-menu" role="menu" id="type-select" aria-labelledby="dropdownMenu">
+                            <li><a class="dropdown-item" href="#">Screenboard</a></li>
+                            <li><a class="dropdown-item" href="#">Timeboard</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <hr>
+                <div id=results class="col-md-12"></div>
+                <div class="select-header">
+                    <span class="m1 p5"><strong>Destination</strong></span>
+                    <span>
+                        <button class="btn btn-info btn-sm dropdown-toggle float-right" type="button" id="destDropdownButton" data-toggle="dropdown">
+                            Destination
+                        </button>
+                        <ul class="dropdown-menu" role="menu" id="dest-select" aria-labelledby="dropdownMenu">
+                            <li><a class="dropdown-item" href="#">Organization</a></li>
+                            <li><a class="dropdown-item" href="#">JSON</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <div>
+                    <form class="form-inline" id="destOrgForm" role="form" style="display:none;" onsubmit="return false">
+                        <div class="form-group">
+                            <label class="sr-only" for="destAPIKey" >
+                                API Key
+                            </label>
+                            <input value="{{ api_key }}" type="password" "form-control m1" name="destAPIKey" placeholder="API Key" />
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="destAPPKey">
+                                APP Key
+                            </label>
+                            <input value="{{ app_key }}" type="password" "form-control m1" name="destAPPKey" placeholder="APP Key" />
+                        </div>
+                        <button id="destOrgSubmit" type="submit" class="btn btn-primary btn-sm float-right">
+                            Submit
+                        </button>
+                    </form>
+                    <button id="destFileSubmit" type="button" style="display:none;" class="btn btn-primary btn-sm float-right">
+                        Get JSON
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block javascript %}
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}
+{% endblock %}

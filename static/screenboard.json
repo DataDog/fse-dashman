@@ -1,0 +1,447 @@
+{
+    "board_title": "Screenboard Widget Sizes",
+    "description": "",
+    "template_variables": [],
+    "widgets": [
+        {
+            "height": 13,
+            "isShared": false,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:system.cpu.user{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 10
+        },
+        {
+            "color": "#4d4d4d",
+            "font_size": "36",
+            "height": 9,
+            "isShared": false,
+            "text": "Text Widget",
+            "text_align": "left",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "free_text",
+            "width": 47,
+            "x": 48,
+            "y": 0
+        },
+        {
+            "autoscale": true,
+            "height": 7,
+            "isShared": false,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "white_on_red",
+                                "value": null
+                            },
+                            {
+                                "comparator": ">=",
+                                "palette": "white_on_yellow",
+                                "value": null
+                            },
+                            {
+                                "comparator": "<",
+                                "palette": "white_on_green",
+                                "value": null
+                            }
+                        ],
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "viz": "query_value"
+            },
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "query_value",
+            "width": 15,
+            "x": 176,
+            "y": 0
+        },
+        {
+            "height": 13,
+            "isShared": false,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:system.load.1{*} by {host}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "toplist",
+            "width": 47,
+            "x": 48,
+            "y": 10
+        },
+        {
+            "aggregator": "avg",
+            "height": 13,
+            "isShared": false,
+            "legend": false,
+            "legend_size": "0",
+            "query": "system.load.1{*} by {host}, hour_before(system.load.1{*} by {host})",
+            "tile_def": {
+                "requests": [
+                    {
+                        "compare_to": "hour_before",
+                        "q": "system.load.1{*} by {host}"
+                    }
+                ],
+                "viz": "change"
+            },
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "change",
+            "width": 47,
+            "x": 0,
+            "y": 26
+        },
+        {
+            "aggregator": "avg",
+            "height": 13,
+            "isShared": false,
+            "legend": false,
+            "legend_size": "0",
+            "query": "system.load.1{*} by {host}, hour_before(system.load.1{*} by {host})",
+            "tile_def": {
+                "requests": [
+                    {
+                        "compare_to": "hour_before",
+                        "q": "system.load.1{*} by {host}"
+                    }
+                ],
+                "viz": "change"
+            },
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "change",
+            "width": 47,
+            "x": 96,
+            "y": 10
+        },
+        {
+            "global_timeframe_controls": false,
+            "height": 9,
+            "isShared": false,
+            "query": "status:error ",
+            "tags_execution": "and",
+            "time": {
+                "live_span": "1d"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "event_timeline",
+            "width": 47,
+            "x": 48,
+            "y": 26
+        },
+        {
+            "event_size": "s",
+            "global_timeframe_controls": false,
+            "height": 36,
+            "isShared": false,
+            "query": "* ",
+            "tags_execution": "and",
+            "time": {
+                "live_span": "1d"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "event_stream",
+            "width": 47,
+            "x": 48,
+            "y": 42
+        },
+        {
+            "height": 9,
+            "isShared": false,
+            "margin": "",
+            "sizing": "zoom",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "image",
+            "url": "",
+            "width": 15,
+            "x": 32,
+            "y": 0
+        },
+        {
+            "auto_refresh": false,
+            "bgcolor": "yellow",
+            "font_size": "14",
+            "height": 9,
+            "html": "Note text",
+            "isShared": false,
+            "refresh_every": 30000,
+            "text_align": "left",
+            "tick": true,
+            "tick_edge": "left",
+            "tick_pos": "50%",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "note",
+            "width": 47,
+            "x": 96,
+            "y": 0
+        },
+        {
+            "add_timeframe": false,
+            "alert_id": "4664533",
+            "height": 13,
+            "isShared": false,
+            "time": {
+                "live_span": "alert"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "alert_graph",
+            "viz_type": "timeseries",
+            "width": 47,
+            "x": 96,
+            "y": 26
+        },
+        {
+            "alert_id": "4664519",
+            "height": 7,
+            "isShared": false,
+            "precision": 2,
+            "text_align": "left",
+            "text_size": "auto",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "alert_value",
+            "unit": "auto",
+            "width": 15,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "height": 70,
+            "isShared": false,
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "iframe",
+            "url": "https://www.google.com/appsstatus#hl=en&v=status",
+            "width": 54,
+            "x": 192,
+            "y": 10
+        },
+        {
+            "check": "datadog.agent.up",
+            "group": null,
+            "grouping": "check",
+            "height": 9,
+            "isShared": false,
+            "tags": [
+                "*"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "time": {
+                "live_span": "10m"
+            },
+            "title": true,
+            "title_align": "center",
+            "title_size": 13,
+            "title_text": "Agent Up",
+            "type": "check_status",
+            "width": 15,
+            "x": 16,
+            "y": 0
+        },
+        {
+            "env": "staging",
+            "height": 70,
+            "isShared": false,
+            "layoutVersion": "two_column",
+            "mustShowBreakdown": true,
+            "mustShowDistribution": true,
+            "mustShowErrors": true,
+            "mustShowHits": true,
+            "mustShowLatency": true,
+            "mustShowResourceList": false,
+            "serviceName": "prozess.alerting_indexer.indexer.index_docs",
+            "serviceService": "alerting-indexer",
+            "sizeVersion": "medium",
+            "text_align": "left",
+            "text_size": "auto",
+            "time": {
+                "live_span": "1h"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "alerting-indexer #env:staging",
+            "type": "trace_service",
+            "width": 72,
+            "x": 247,
+            "y": 10
+        },
+        {
+            "height": 19,
+            "isShared": false,
+            "legend": null,
+            "legend_size": null,
+            "query": "avg:system.load.1{*} by {host}",
+            "tile_def": {
+                "groupby": null,
+                "noGroupHosts": true,
+                "noMetricHosts": true,
+                "requests": [
+                    {
+                        "q": "avg:system.load.1{*} by {host}",
+                        "type": "fill"
+                    }
+                ],
+                "scope": null,
+                "style": {
+                    "fillMax": null,
+                    "fillMin": null
+                },
+                "viz": "hostmap"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "hostmap",
+            "width": 47,
+            "x": 144,
+            "y": 20
+        },
+        {
+            "colorPreference": "text",
+            "displayFormat": "countsAndList",
+            "edit": false,
+            "height": 38,
+            "hideZeroCounts": true,
+            "isShared": false,
+            "params": {
+                "count": 50,
+                "sort": "status,asc",
+                "start": 0,
+                "text": ""
+            },
+            "showTitle": true,
+            "title": true,
+            "titleAlign": "left",
+            "titleSize": "13",
+            "titleText": null,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "manage_status",
+            "userEditedTitle": false,
+            "widgetID": "",
+            "width": 47,
+            "x": 0,
+            "y": 42
+        },
+        {
+            "columns": "[\"core_host\",\"core_service\"]",
+            "height": 38,
+            "isShared": false,
+            "logset": "12",
+            "logsetName": "",
+            "query": "",
+            "time": {
+                "live_span": "1d"
+            },
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": null,
+            "type": "log_stream",
+            "width": 47,
+            "x": 96,
+            "y": 42
+        }
+    ],
+    "width": "100%"
+}
