@@ -20,6 +20,7 @@ ENV_API_KEY = environ.get('DD_API_KEY') or ''
 ENV_APP_KEY = environ.get('DD_APP_KEY') or ''
 DEFAULT_DASH_ID = environ.get('DD_DEFAULT_DASH')
 
+# TODO: Add option to resize widgets
 WIDGET_DIMENSIONS = {
     'alert_graph': {'height': 13, 'width': 47},
     'alert_value': {'height': 7, 'width': 15},
@@ -135,34 +136,45 @@ class Dashboard(object):
             qr = qr.replace(end_str, '}')
         return qr
 
-    #TODO: Test this.  This is where we stopped.
     def remove_vars_from_charts(self, vars_to_remove):
         for chart in self.charts:
             request_list = []
+            chart_type = ''
             if self.d_type == 'timeboard':
                 if chart.get('definition', None) and chart['definition'].get('requests', None):
+                    chart_type = chart['definition']['viz']
                     request_list = chart['definition']['requests']
                     def_key = 'definition'
             elif self.d_type == 'screenboard':
                 if chart.get('tile_def', None) and chart['tile_def'].get('requests', None):
+                    chart_type = chart['tile_def']['viz']
                     request_list = chart['tile_def']['requests']
                     def_key = 'tile_def'
-            if len(request_list):
+            if len(request_list) and len(vars_to_remove):
                 request_update = []
                 for req in request_list:
-                    query = req['q']
-                    qr = self.remove_vars_from_query(query, vars_to_remove)
-                    req['q'] = qr
+                    try:
+                        if chart_type == 'process':
+                            query = req['tag_filters']
+                            tf = self.remove_vars_from_query(query, vars_to_remove)
+                            req['tag_filters'] = tf
+                        else:
+                            query = req['q']
+                            qr = self.remove_vars_from_query(query, vars_to_remove)
+                            req['q'] = qr
+                    except KeyError:
+                        print("KeyError - Likely due to APM or Log Search")
+                        print("Title: {}".format(chart['title']))
+                        print("Request: {}".format(req))
                     request_update.append(req)
                 chart[def_key]['requests'] = request_update
-
             elif chart.get('query', None):
                 query = chart['query']
                 qr = self.remove_vars_from_query(query, vars_to_remove)
                 chart['query'] = qr
 
-    # TODO: API doesn't accept process graphs or log and apm datasets.  Check 6/1.
-    # https://trello.com/c/88I1maqr/557-timeboard-api-does-not-support-process-graphs
+    # TODO: API doesn't accept process graphs.  Check 8/1.
+    # https://trello.com/c/pd773U8v/1009-cannot-create-process-graphs-via-api
     def filter_graph_types(self, graphs):
         filtered_graphs = []
         for graph in graphs:
@@ -170,11 +182,6 @@ class Dashboard(object):
             if graph.get('definition', None) and graph['definition'].get('viz', None) == 'process':
                 add_graph = False
                 continue
-            rs = graph['definition']['requests']
-            for r in rs:
-                if r.get('log_query', None) or r.get('apm_query', None):
-                    add_graph = False
-                    continue
             if add_graph:
                 filtered_graphs.append(graph)
         self.charts = filtered_graphs
@@ -207,7 +214,10 @@ class Dashboard(object):
             else:
                 widgets[i]['tile_def'] = 'outdated'
             if not (('title_text' in widgets[i]) and (isinstance(widgets[i]['title_text'],str))):
-                widgets[i]['title_text'] = widgets[i]['tile_def']['requests'][0]['q']
+                try:
+                    widgets[i]['title_text'] = widgets[i]['tile_def']['requests'][0]['q']
+                except TypeError:
+                    widgets[i]['title_text'] = 'No title'
             if widgets[i]['type'] == 'hostmap':
                 definition = {
                     "style": widgets[i]['tile_def']['style'],
@@ -340,6 +350,7 @@ def _create_dash(api_key, app_key, dash_dict):
         title = dash_dict.get('title', 'New Timeboard')
         description = dash_dict.get('description', '')
         graphs = dash_dict.get('charts', [])
+        print(graphs) #XYZ
         template_variables = dash_dict.get('template_variables', [])
         res = api.Timeboard.create(title=title, description=description, graphs=graphs,
                                    template_variables=template_variables, read_only=read_only)

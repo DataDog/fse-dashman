@@ -33,6 +33,14 @@ $(document).ready(function() {
             }
         }
 
+        this.selectAll = function() {
+            for (var obj in this.store) {
+                if (this.store.hasOwnProperty(obj)) {
+                    this.store[obj]['selected'] = true;
+                }
+            }
+        }
+
         this.returnArray = function() {
             var retArr = [];
             for (obj in this.store) {
@@ -47,6 +55,9 @@ $(document).ready(function() {
 
     function loadDashboard(dashboard, dashId) {
 
+        allVars.selectAll();
+        allCharts.selectAll();
+
         var currentVars = allVars.returnArray();
 
         if (Object.keys(dashboards).length) {
@@ -60,7 +71,7 @@ $(document).ready(function() {
             }
         } else {
             $.when(resetPage()).done(function() {
-                dashTitle = dashboard.title;
+                dashTitle = 'Clone - ' + dashboard.title;
                 dashDesc = dashboard.description;
                 destType = dashboard.type;
                 dashType = dashboard.type.toLowerCase();
@@ -125,7 +136,7 @@ $(document).ready(function() {
     }
 
     function renderChart(chart) {
-        var chartsEl = $("#charts");
+        var chartsTable = $("#chart-table");
         if (dashType == 'screenboard') {
             var wTitle = chart.title_text;
             var wType = chart.type;
@@ -138,20 +149,26 @@ $(document).ready(function() {
             var wTitle = chart.title;
             var wType = chart.definition.viz;
         }
-        // TODO: Use a table
-        chartsEl.append($.parseHTML(
-            `<div>
-                <input type="checkbox"
-                       class="chart-checkbox"
-                       value="` + chart.id + `" checked>
-                <b>Title:</b> ` + wTitle + ` <b>Type:</b> ` + wType + ` <b>Dash:</b> ` + chart.dashId + `
-                </input>
-            </div>`
-        ));
+        chartsTable.append(
+            `<tr>
+                <td><input type="checkbox" class="chart-checkbox" value="` + chart.id + `" checked></td>
+                <td>` + wTitle + `</td>
+                <td>` + wType + `</td>
+                <td>` + chart.dashId + `</td>
+            </tr>`
+        );
     }
 
     function renderCharts() {
-        $("#charts").empty();
+        $("#chart-table").empty();
+        $("#chart-table").append(
+            `<tr>
+                <td></td>
+                <td><strong>Title</strong></td>
+                <td><strong>Type</strong></td>
+                <td><strong>Dash Id</strong></td>
+            </tr>`
+        );
         var tempCharts = allCharts.returnArray();
         for (var i=0; i < tempCharts.length; i++) {
             renderChart(tempCharts[i]);
@@ -159,7 +176,15 @@ $(document).ready(function() {
     }
 
     function renderVars() {
-        $("#template-vars").empty();
+        $("#template-var-table").empty();
+        $("#template-var-table").append(
+            `<tr>
+                <td></td>
+                <td><strong>Prefix</strong></td>
+                <td><strong>Name</strong></td>
+                <td><strong>Default</strong></td>
+            </tr>`
+        );
         var tempVars = allVars.returnArray();
         for (var i=0; i < tempVars.length; i++) {
             renderDashVar(tempVars[i]);
@@ -167,15 +192,14 @@ $(document).ready(function() {
     }
 
     function renderDashVar(dashVar) {
-        $("#template-vars").append($.parseHTML(
-            `<div>
-                <input type="checkbox"
-                       class="vars-checkbox"
-                       value="` + dashVar.id + `" checked>
-                <b>Prefix:</b> ` + dashVar.prefix + ` <b>Name:</b> ` + dashVar.name + ` <b>Default:</b> ` + dashVar.default + `
-                </input>
-            </div>`
-        ));
+        $("#template-var-table").append(
+            `<tr>
+                <td><input type="checkbox" class="vars-checkbox" value="` + dashVar.id + `" checked></td>
+                <td>` + dashVar.prefix + `</td>
+                <td>` + dashVar.name + `</td>
+                <td>` + dashVar.default + `</td>
+            </tr>`
+        );
     }
 
     function resetPage() {
@@ -193,7 +217,7 @@ $(document).ready(function() {
         newSource.find('.source-label').html("Source Dashboard - (" + dashId + ")").css("font-weight","Bold");
     }
 
-    $("#template-vars").on("change", ".vars-checkbox", (function() {
+    $("#template-var-table").on("change", ".vars-checkbox", (function() {
         var t_id = this.value;
         if (this.checked === true) {
             allVars.updateObj(t_id, 'selected', true);
@@ -202,7 +226,7 @@ $(document).ready(function() {
         }
     }));
 
-    $("#charts").on("change", ".chart-checkbox", (function() {
+    $("#chart-table").on("change", ".chart-checkbox", (function() {
         var w_id = this.value;
         if (this.checked === true) {
             allCharts.updateObj(w_id, 'selected', true);
@@ -243,9 +267,6 @@ $(document).ready(function() {
                     success: function(results) {
                         if (results) {
                             loadDashboard(results, dashId);
-                        } else {
-                            $("#charts").html("No Charts");
-                            $("#template-vars").html("No Template Variables");
                         }
                     },
                     error: function(error) {
@@ -270,9 +291,6 @@ $(document).ready(function() {
                 success: function (results) {
                     if (results) {
                         loadDashboard(results, dashId);
-                    } else {
-                        $("#charts").html("No Charts");
-                        $("#template-vars").html("No Template Variables");
                     }
                 },
                 error: function(error) {
