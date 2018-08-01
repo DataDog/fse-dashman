@@ -141,9 +141,9 @@ $(document).ready(function() {
             var wTitle = chart.title_text;
             var wType = chart.type;
             if (wType == 'image') {
-                wTitle = chart.url;
+                wTitle = chart.url.substring(0,48) + '...';
             } else if (wType == 'note') {
-                wTitle = chart.html;
+                wTitle = chart.html.substring(0,48) + '...';
             }
         } else if (dashType == 'timeboard') {
             var wTitle = chart.title;
