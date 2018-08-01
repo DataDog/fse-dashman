@@ -142,7 +142,7 @@ class Dashboard(object):
             chart_type = ''
             if self.d_type == 'timeboard':
                 if chart.get('definition', None) and chart['definition'].get('requests', None):
-                    chart_type = chart['definition']['viz']
+                    chart_type = chart['definition'].get('viz', 'timeseries')
                     request_list = chart['definition']['requests']
                     def_key = 'definition'
             elif self.d_type == 'screenboard':
