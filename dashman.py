@@ -173,15 +173,10 @@ class Dashboard(object):
                 qr = self.remove_vars_from_query(query, vars_to_remove)
                 chart['query'] = qr
 
-    # TODO: API doesn't accept process graphs.  Check 8/1.
-    # https://trello.com/c/pd773U8v/1009-cannot-create-process-graphs-via-api
     def filter_graph_types(self, graphs):
         filtered_graphs = []
         for graph in graphs:
             add_graph = True
-            if graph.get('definition', None) and graph['definition'].get('viz', None) == 'process':
-                add_graph = False
-                continue
             if add_graph:
                 filtered_graphs.append(graph)
         self.charts = filtered_graphs
