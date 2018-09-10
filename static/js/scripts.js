@@ -270,7 +270,8 @@ $(document).ready(function() {
                         }
                     },
                     error: function(error) {
-                        alert("error = ", error);
+                        var msg = "Error: " + error.responseJSON.message;
+                        alert(msg);
                     }
                 });
             });
