@@ -41,6 +41,23 @@ WIDGET_DIMENSIONS = {
     'trace_service': {'height': 70, 'width': 72}
 }
 
+
+class InvalidUsage(Exception):
+    status_code = 500
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+
 class Dashboard(object):
 
     def __init__(self, board):
@@ -410,6 +427,8 @@ def get_dash_from_api():
         app_key = request.form.get('appKey')
         dash_id = int(request.form.get('dashId'))
         dash_json = _get_dash_from_api(api_key, app_key, dash_id)
+        if 'errors' in dash_json:
+            raise InvalidUsage('Invalid dashboard.  If you are using an integration preset dashboard, please clone the dashboard and use the new id.', status_code=500)
         dashboard = Dashboard(dash_json)
         ui_json = dashboard.return_ui_json()
         return jsonify(ui_json)
@@ -450,6 +469,12 @@ def save_dash_to_file():
         return request.url_root + 'static/' + temp_path
     else:
         return None
+
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
 
 # User Routes
 @app.route('/', methods=['GET', 'POST'])
