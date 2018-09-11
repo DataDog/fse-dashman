@@ -11,7 +11,7 @@ Instructions:
 1. Clone this repo
 2. Optionally add default API/APP keys and Dashboard Id in .env
 3. `docker-compose up`
-4. Point your browser to http://127.0.0.1:5000
+4. Point your browser to http://127.0.0.1:5050
 
 Alternatively, you can run in a python venv and pip install requirements.txt.
 
