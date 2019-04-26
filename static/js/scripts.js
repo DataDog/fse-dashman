@@ -89,20 +89,22 @@ $(document).ready(function() {
             allCharts.addObj(tempChart);
         }
 
-        for (var i=0; i < dashboard.template_variables.length; i++) {
-            var addVar = true;
-            tV = dashboard.template_variables[i];
-            for (var j=0; j < currentVars.length; j++) {
-                var cV = currentVars[j];
-                if (tV.name == cV.name && tV.prefix == cV.prefix && tV.default == cV.default) {
-                    addVar = false;
+        if (dashboard.template_variables) {
+            for (var i=0; i < dashboard.template_variables.length; i++) {
+                var addVar = true;
+                tV = dashboard.template_variables[i];
+                for (var j=0; j < currentVars.length; j++) {
+                    var cV = currentVars[j];
+                    if (tV.name == cV.name && tV.prefix == cV.prefix && tV.default == cV.default) {
+                        addVar = false;
+                    }
                 }
-            }
-            if (addVar) {
-                tV['selected'] = true;
-                tV['dashId'] = dashId;
-                tV['id'] = dashId + '-' + i;
-                allVars.addObj(tV);
+                if (addVar) {
+                    tV['selected'] = true;
+                    tV['dashId'] = dashId;
+                    tV['id'] = dashId + '-' + i;
+                    allVars.addObj(tV);
+                }
             }
         }
 

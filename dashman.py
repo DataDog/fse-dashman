@@ -18,7 +18,7 @@ UPLOAD_FOLDER = path.join(APP_ROOT, 'static', TEMP_DIR)
 # Default values for testing
 ENV_API_KEY = environ.get('DD_API_KEY') or ''
 ENV_APP_KEY = environ.get('DD_APP_KEY') or ''
-DEFAULT_DASH_ID = environ.get('DD_DEFAULT_DASH')
+DEFAULT_DASH_ID = environ.get('DD_DEFAULT_DASH') or ''
 
 # TODO: Add option to resize widgets
 WIDGET_DIMENSIONS = {
@@ -425,7 +425,7 @@ def get_dash_from_api():
     if request.method == 'POST':
         api_key = request.form.get('apiKey')
         app_key = request.form.get('appKey')
-        dash_id = int(request.form.get('dashId'))
+        dash_id = request.form.get('dashId')
         dash_json = _get_dash_from_api(api_key, app_key, dash_id)
         if 'errors' in dash_json:
             raise InvalidUsage('Invalid dashboard.  If you are using an integration preset dashboard, please clone the dashboard and use the new id.', status_code=500)
